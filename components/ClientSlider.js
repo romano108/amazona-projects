@@ -9,11 +9,11 @@ const logos = [
   "https://upload.wikimedia.org/wikipedia/commons/5/51/Google.png",
 ];
 
-const repeatedLogos = [...logos, ...logos, ...logos]; // tripled for no gaps
+const repeatedLogos = [...logos, ...logos, ...logos]; // tripled logos for seamless loop
 
 const ClientSlider = () => {
   return (
-    <div className="flex items-center relative h-[15vh] w-full overflow-hidden bg-transparent">
+    <div className="flex items-center relative h-[15vh] w-full overflow-hidden bg-transparent select-none">
       {/* Fade edges with soft transparent gradient */}
       <div className="absolute top-0 left-0 w-24 h-full z-10 bg-gradient-to-r from-white/90 to-transparent dark:from-black/80 pointer-events-none" />
       <div className="absolute top-0 right-0 w-24 h-full z-10 bg-gradient-to-l from-white/90 to-transparent dark:from-black/80 pointer-events-none" />
@@ -29,10 +29,11 @@ const ClientSlider = () => {
           <div
             key={i}
             className="flex items-center justify-center w-[320px] h-full px-8"
+            aria-hidden={i >= logos.length} // hide duplicates from screen readers
           >
             <img
               src={src}
-              alt={`Logo ${i}`}
+              alt={`Logo ${i < logos.length ? i : ""}`}
               className="h-10 w-auto opacity-80 hover:opacity-100 transition duration-300 ease-in-out"
               draggable={false}
             />
@@ -40,7 +41,6 @@ const ClientSlider = () => {
         ))}
       </div>
 
-      {/* Inline CSS for animation */}
       <style jsx>{`
         @keyframes scrollLoop {
           0% {
